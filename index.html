@@ -35,6 +35,17 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM cargado. Iniciando Facebook SDK...');
     
+            // Inicializa el SDK de Facebook
+            FB.init({
+                appId      : '973427901041222',
+                cookie     : true,
+                xfbml      : true,
+                version    : 'v12.0'
+            });
+
+            // Agrega el listener al botón de inicio de sesión de Facebook
+            document.getElementById('loginButton').addEventListener('click', checkLoginState);
+
             // Función para manejar el estado de inicio de sesión
             function checkLoginState() {
                 console.log('Verificando estado de inicio de sesión...');
@@ -56,16 +67,13 @@
                     if (response.picture && response.picture.data && response.picture.data.url) {
                         // Actualiza la imagen de perfil y el nombre en la página
                         console.log('Actualizando la imagen de perfil y el nombre en la página...');
-                        document.getElementById('profilePicture').src = `https://graph.facebook.com/${response.id}/picture?type=large`;
+                        document.getElementById('profilePicture').src = response.picture.data.url;
                         document.getElementById('userName').innerText = response.name;
                     } else {
                         console.error('Error al obtener la URL de la imagen de perfil.');
                     }
                 });
             }
-    
-            // Agrega el listener al botón de inicio de sesión de Facebook
-            document.getElementById('loginButton').addEventListener('login', checkLoginState);
         });
     </script>
     
