@@ -27,54 +27,34 @@
             </div>
         </div>
         <!-- Agrega el botón de inicio de sesión de Facebook -->
-        <fb:login-button scope="public_profile,email" id="loginButton">
+        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
         </fb:login-button>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM cargado. Iniciando Facebook SDK...');
-    
-            // Inicializa el SDK de Facebook
-            FB.init({
-                appId      : '973427901041222',
-                cookie     : true,
-                xfbml      : true,
-                version    : 'v12.0'
+        // Función para manejar el estado de inicio de sesión
+        function checkLoginState() {
+            FB.getLoginStatus(function(response) {
+                if (response.status === 'connected') {
+                    // El usuario está conectado, obtenemos la información del perfil
+                    getUserInfo();
+                }
             });
-
-            // Agrega el listener al botón de inicio de sesión de Facebook
-            document.getElementById('loginButton').addEventListener('click', checkLoginState);
-
-            // Función para manejar el estado de inicio de sesión
-            function checkLoginState() {
-                console.log('Verificando estado de inicio de sesión...');
-                FB.getLoginStatus(function(response) {
-                    console.log('Respuesta de estado de inicio de sesión:', response);
-                    if (response.status === 'connected') {
-                        // El usuario está conectado, obtenemos la información del perfil
-                        getUserInfo();
-                    }
-                });
-            }
+        }
     
-            // Función para obtener la información del perfil del usuario
-            function getUserInfo() {
-                console.log('Obteniendo información del perfil...');
-                FB.api('/me', {fields: 'id,name,picture'}, function(response) {
-                    console.log('Respuesta de información del perfil:', response);
-                    // Verifica si la propiedad "picture" está presente y tiene una URL
-                    if (response.picture && response.picture.data && response.picture.data.url) {
-                        // Actualiza la imagen de perfil y el nombre en la página
-                        console.log('Actualizando la imagen de perfil y el nombre en la página...');
-                        document.getElementById('profilePicture').src = response.picture.data.url;
-                        document.getElementById('userName').innerText = response.name;
-                    } else {
-                        console.error('Error al obtener la URL de la imagen de perfil.');
-                    }
-                });
-            }
-        });
+        // Función para obtener la información del perfil del usuario
+        function getUserInfo() {
+            FB.api('/me', {fields: 'id,name,picture'}, function(response) {
+                // Verifica si la propiedad "picture" está presente y tiene una URL
+                if (response.picture && response.picture.data && response.picture.data.url) {
+                    // Actualiza la imagen de perfil y el nombre en la página
+                    document.getElementById('profilePicture').src = `https://graph.facebook.com/${response.id}/picture?`;
+                    document.getElementById('userName').innerText = response.name;
+                } else {
+                    console.error('Error al obtener la URL de la imagen de perfil.');
+                }
+            });
+        }
     </script>
     
 </body>
