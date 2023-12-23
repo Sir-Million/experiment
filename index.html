@@ -27,14 +27,14 @@
             </div>
         </div>
         <!-- Agrega el botón de inicio de sesión de Facebook -->
-        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+        <fb:login-button scope="public_profile,email" id="loginButton">
         </fb:login-button>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM cargado. Iniciando Facebook SDK...');
-            
+    
             // Función para manejar el estado de inicio de sesión
             function checkLoginState() {
                 console.log('Verificando estado de inicio de sesión...');
@@ -46,7 +46,7 @@
                     }
                 });
             }
-        
+    
             // Función para obtener la información del perfil del usuario
             function getUserInfo() {
                 console.log('Obteniendo información del perfil...');
@@ -63,6 +63,9 @@
                     }
                 });
             }
+    
+            // Agrega el listener al botón de inicio de sesión de Facebook
+            document.getElementById('loginButton').addEventListener('login', checkLoginState);
         });
     </script>
     
