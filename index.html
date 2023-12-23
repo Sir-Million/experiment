@@ -19,9 +19,6 @@
             <div class="imgzone">
                 <div class="fixblock">
                     <div class="profile">
-                        <!-- Agrega el botón de inicio de sesión de Facebook -->
-                        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-                        </fb:login-button>
                         <img src="" alt="" class="pfp" id="profilePicture">
                         <h2 id="userName"></h2>
                     </div>
@@ -29,6 +26,9 @@
                 </div>
             </div>
         </div>
+        <!-- Agrega el botón de inicio de sesión de Facebook -->
+        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+        </fb:login-button>
     </div>
 
     <script>
