@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="language" content="Spanish">
+    <title>Página Dividida</title>
+    <link rel="stylesheet" href="css/index.css">
+
+    <!-- Agrega el SDK de JavaScript de Facebook -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v12.0&appId=973427901041222&autoLogAppEvents=1" nonce="NVjkzQD1"></script>
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="panel">
+            <div class="imgzone">
+                <div class="fixblock">
+                    <div class="profile">
+                        <!-- Agrega el botón de inicio de sesión de Facebook -->
+                        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+                        </fb:login-button>
+                        <img src="" alt="" class="pfp" id="profilePicture">
+                        <h2 id="userName"></h2>
+                    </div>
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque adipisci omnis earum, libero reiciendis velit temporibus minima autem eligendi quisquam ut quod, reprehenderit assumenda maiores. Ipsa distinctio laborum aperiam numquam.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para manejar el estado de inicio de sesión
+        function checkLoginState() {
+            FB.getLoginStatus(function(response) {
+                if (response.status === 'connected') {
+                    // El usuario está conectado, obtenemos la información del perfil
+                    getUserInfo();
+                }
+            });
+        }
+
+        // Función para obtener la información del perfil del usuario
+        function getUserInfo() {
+            FB.api('/me', {fields: 'id,name,picture'}, function(response) {
+                // Actualiza la imagen de perfil y el nombre en la página
+                document.getElementById('profilePicture').src = response.picture.data.url;
+                document.getElementById('userName').innerText = response.name;
+            });
+        }
+    </script>
+    
+</body>
+</html>
