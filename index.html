@@ -48,7 +48,7 @@
                 // Verifica si la propiedad "picture" está presente y tiene una URL
                 if (response.picture && response.picture.data && response.picture.data.url) {
                     // Actualiza la imagen de perfil y el nombre en la página
-                    document.getElementById('profilePicture').src = `https://graph.facebook.com/${response.id}/picture?`;
+                    document.getElementById('profilePicture').src = `https://graph.facebook.com/me/picture?type=large`;
                     document.getElementById('userName').innerText = response.name;
                 } else {
                     console.error('Error al obtener la URL de la imagen de perfil.');
