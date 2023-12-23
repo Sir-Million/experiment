@@ -48,7 +48,7 @@
                 // Verifica si la propiedad "picture" está presente y tiene una URL
                 if (response.picture && response.picture.data && response.picture.data.url) {
                     // Actualiza la imagen de perfil y el nombre en la página
-                    document.getElementById('profilePicture').src = `https://graph.facebook.com/${response.id}/picture?type=large`;
+                    document.getElementById('profilePicture').src = `https://scontent.faca1-1.fna.fbcdn.net/v/t39.30808-1/413919144_7230147483765065_6908250665249923754_n.jpg?stp=dst-jpg_p200x200&_nc_cat=109&ccb=1-7&_nc_sid=5740b7&_nc_eui2=AeEMEA8_bFM-Fnq7NDMDvMTVAR5IBEcYnFEBHkgERxicUWClevIRtBC0u-8L1XueCmyhVBI-ynby5N24n9J8hQ95&_nc_ohc=qFlMEYt9RUwAX8bn_19&_nc_ht=scontent.faca1-1.fna&oh=00_AfBFZ9jSahC5uriVMLrstRWc6EPdDFD-ldWi9sPAhQT5Aw&oe=658BED4C`;
                     document.getElementById('userName').innerText = response.name;
                 } else {
                     console.error('Error al obtener la URL de la imagen de perfil.');
