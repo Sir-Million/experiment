@@ -48,18 +48,18 @@ body {
     width: 45px;
     border-radius: 50%;
     margin-right: 15px;
-    position: relative; /* Añade posicionamiento relativo */
 }
 
-.pfp::after {
-    content: "";
-    width: 10px;
-    height: 10px;
-    background-color: #00ff00; /* Color verde */
-    border-radius: 50%;
-    position: absolute;
-    bottom: 0;
-    right: 0;
+textarea {
+    width: 465px;
+    min-height: 100px; /* Altura mínima */
+    resize: none; /* Permite cambiar la altura verticalmente */
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Fuente similar a la de Facebook */
+    font-size: 16px; /* Tamaño de fuente similar al de un elemento <p> */
+    padding: 0; /* Espaciado interno para mayor comodidad */
+    border: none;
+    background: none;
+    color: #d9dadf;
 }
 
 /* Agrega estilos adicionales según sea necesario */

@@ -11,6 +11,8 @@
     <!-- Agrega el SDK de JavaScript de Facebook -->
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v12.0&appId=973427901041222&autoLogAppEvents=1" nonce="NVjkzQD1"></script>
 
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    
 </head>
 <body>
 
@@ -22,13 +24,14 @@
                         <img src="" alt="" class="pfp" id="profilePicture">
                         <h2 id="userName"></h2>
                     </div>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque adipisci omnis earum, libero reiciendis velit temporibus minima autem eligendi quisquam ut quod, reprehenderit assumenda maiores. Ipsa distinctio laborum aperiam numquam.</p>
+                    <textarea placeholder="Escribe aquí..." oninput="autoResize(this)"></textarea>
                 </div>
             </div>
         </div>
         <!-- Agrega el botón de inicio de sesión de Facebook -->
-        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-        </fb:login-button>
+        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+        <br>
+        <button onclick="captureImage()">Capturar Imagen</button>
     </div>
 
     <script>
@@ -53,6 +56,22 @@
                 } else {
                     console.error('Error al obtener la URL de la imagen de perfil.');
                 }
+            });
+        }
+    </script>
+
+    <script>
+        // Función para cambiar automáticamente el tamaño del área de texto
+        function autoResize(element) {
+            element.style.height = "auto";
+            element.style.height = (element.scrollHeight) + "px";
+        }
+
+        function captureImage() {
+            html2canvas(document.querySelector('.imgzone')).then(canvas => {
+                // En este punto, 'canvas' contiene la imagen capturada
+                // Puedes mostrarla en la página o enviarla al servidor según tus necesidades
+                document.body.appendChild(canvas);
             });
         }
     </script>
