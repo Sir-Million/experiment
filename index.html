@@ -32,6 +32,7 @@
         <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
         <br>
         <button onclick="captureImage()">Capturar Imagen</button>
+        <a id="downloadLink" style="display: none;">Descargar Imagen</a>
     </div>
 
     <script>
@@ -72,6 +73,12 @@
                 // En este punto, 'canvas' contiene la imagen capturada
                 // Puedes mostrarla en la página o enviarla al servidor según tus necesidades
                 document.body.appendChild(canvas);
+
+                // Crear un enlace para descargar la imagen
+                var downloadLink = document.getElementById('downloadLink');
+                downloadLink.href = canvas.toDataURL('image/png');
+                downloadLink.download = 'captura.png';
+                downloadLink.style.display = 'block';
             });
         }
     </script>
