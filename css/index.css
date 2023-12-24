@@ -52,7 +52,6 @@ body {
 
 textarea {
     width: 465px;
-    min-height: 100px; /* Altura mínima */
     resize: none; /* Permite cambiar la altura verticalmente */
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Fuente similar a la de Facebook */
     font-size: 16px; /* Tamaño de fuente similar al de un elemento <p> */
