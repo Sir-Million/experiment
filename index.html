@@ -6,81 +6,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="language" content="Spanish">
     <title>Página Dividida</title>
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="index.css">
 
     <!-- Agrega el SDK de JavaScript de Facebook -->
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v12.0&appId=973427901041222&autoLogAppEvents=1" nonce="NVjkzQD1"></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v12.0&appId=tu_app_id&autoLogAppEvents=1" nonce="NVjkzQD1"></script>
 
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    
 </head>
 <body>
 
     <div class="container">
-        <div class="panel">
+        <div class="panel izquierda" id="izquierda">
             <div class="imgzone">
                 <div class="fixblock">
                     <div class="profile">
                         <img src="" alt="" class="pfp" id="profilePicture">
                         <h2 id="userName"></h2>
                     </div>
-                    <textarea placeholder="Escribe aquí..." oninput="autoResize(this)"></textarea>
                 </div>
             </div>
         </div>
-        <!-- Agrega el botón de inicio de sesión de Facebook -->
-        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
-        <br>
-        <button onclick="captureImage()">Capturar Imagen</button>
-        <a id="downloadLink" style="display: none;">Descargar Imagen</a>
+        <div class="panel derecha" id="derecha">
+            <!-- Aquí se mostrará la imagen -->
+        </div>
+    </div>
+
+    <!-- Botón de inicio de sesión de Facebook -->
+    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+    <br>
+    <button onclick="openTextAreaPanel()">Abrir Panel de Texto</button>
+    <button onclick="captureImage()">Capturar Imagen</button>
+    <a id="downloadLink" style="display: none;">Descargar Imagen</a>
+
+    <!-- Panel con textarea adicional -->
+    <div class="text-panel" id="textPanel" style="display: none;">
+        <textarea id="additionalText" placeholder="Escribe aquí..." oninput="autoResizeAdditionalText(this)"></textarea>
+        <button onclick="closeTextAreaPanel()">Cerrar Panel</button>
     </div>
 
     <script>
+        // Funciones para manejar el panel de texto adicional
+        function openTextAreaPanel() {
+            document.getElementById('textPanel').style.display = 'block';
+        }
+
+        function closeTextAreaPanel() {
+            var additionalTextContent = document.getElementById('additionalText').value;
+            document.getElementById('textPanel').style.display = 'none';
+
+            // Obtener el div de fixblock
+            var fixblockDiv = document.querySelector('.fixblock');
+
+            // Eliminar cualquier contenido existente dentro de fixblock
+            while (fixblockDiv.firstChild) {
+                fixblockDiv.removeChild(fixblockDiv.firstChild);
+            }
+
+            // Crear un nuevo párrafo y agregarlo a fixblock
+            var pElement = document.createElement('p');
+            pElement.innerHTML = additionalTextContent.replace(/\n/g, '<br>');
+            fixblockDiv.appendChild(pElement);
+
+            // Actualizar la imagen
+            actualizarImagen();
+        }
+
+        function autoResizeAdditionalText(element) {
+            element.style.height = "auto";
+            element.style.height = (element.scrollHeight) + "px";
+        }
+
+        function autoResize(element) {
+            element.style.height = "auto";
+            element.style.height = (element.scrollHeight) + "px";
+            actualizarImagen();
+        }
+
+        function actualizarImagen() {
+            var divElement = document.getElementById("izquierda");
+
+            html2canvas(divElement, { scale: 2 }).then(function(canvas) {
+                var imgData = canvas.toDataURL("image/png");
+
+                var derechaPanel = document.getElementById("derecha");
+
+                while (derechaPanel.firstChild) {
+                    derechaPanel.removeChild(derechaPanel.firstChild);
+                }
+
+                var imgTag = document.createElement("img");
+                imgTag.src = imgData;
+
+                derechaPanel.appendChild(imgTag);
+            });
+        }
+
         // Función para manejar el estado de inicio de sesión
         function checkLoginState() {
             FB.getLoginStatus(function(response) {
                 if (response.status === 'connected') {
                     // El usuario está conectado, obtenemos la información del perfil
                     getUserInfo();
+                } else {
+                    console.error('El usuario no está conectado a Facebook.');
                 }
             });
         }
-    
+
         // Función para obtener la información del perfil del usuario
         function getUserInfo() {
             FB.api('/me', {fields: 'id,name,picture'}, function(response) {
                 // Verifica si la propiedad "picture" está presente y tiene una URL
                 if (response.picture && response.picture.data && response.picture.data.url) {
                     // Actualiza la imagen de perfil y el nombre en la página
-                    document.getElementById('profilePicture').src = `https://scontent.faca1-1.fna.fbcdn.net/v/t39.30808-1/413919144_7230147483765065_6908250665249923754_n.jpg?stp=dst-jpg_p200x200&_nc_cat=109&ccb=1-7&_nc_sid=5740b7&_nc_eui2=AeEMEA8_bFM-Fnq7NDMDvMTVAR5IBEcYnFEBHkgERxicUWClevIRtBC0u-8L1XueCmyhVBI-ynby5N24n9J8hQ95&_nc_ohc=qFlMEYt9RUwAX8bn_19&_nc_ht=scontent.faca1-1.fna&oh=00_AfBFZ9jSahC5uriVMLrstRWc6EPdDFD-ldWi9sPAhQT5Aw&oe=658BED4C`;
+                    document.getElementById('profilePicture').src = response.picture.data.url;
                     document.getElementById('userName').innerText = response.name;
                 } else {
                     console.error('Error al obtener la URL de la imagen de perfil.');
                 }
             });
         }
-    </script>
 
-    <script>
-        // Función para cambiar automáticamente el tamaño del área de texto
-        function autoResize(element) {
-            element.style.height = "auto";
-            element.style.height = (element.scrollHeight) + "px";
-        }
-
-        function captureImage() {
-            html2canvas(document.querySelector('.imgzone')).then(canvas => {
-                // En este punto, 'canvas' contiene la imagen capturada
-                // Puedes mostrarla en la página o enviarla al servidor según tus necesidades
-                document.body.appendChild(canvas);
-
-                // Crear un enlace para descargar la imagen
-                var downloadLink = document.getElementById('downloadLink');
-                downloadLink.href = canvas.toDataURL('image/png');
-                downloadLink.download = 'captura.png';
-                downloadLink.style.display = 'block';
-            });
-        }
+        window.addEventListener("load", function() {
+            actualizarImagen();
+        });
     </script>
     
 </body>
