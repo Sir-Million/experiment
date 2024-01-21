@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="index.css">
 
     <!-- Agrega el SDK de JavaScript de Facebook -->
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v12.0&appId=tu_app_id&autoLogAppEvents=1" nonce="NVjkzQD1"></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js"></script>
 
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
@@ -45,6 +45,30 @@
     </div>
 
     <script>
+        // Inicializar el SDK de Facebook
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '973427901041222',
+                cookie     : true,
+                xfbml      : true,
+                version    : 'v12.0'
+            });
+
+            FB.AppEvents.logPageView();
+
+            // Resto del código...
+            // Llamar a otras funciones después de la inicialización si es necesario
+        };
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        // Resto del código...
         // Funciones para manejar el panel de texto adicional
         function openTextAreaPanel() {
             document.getElementById('textPanel').style.display = 'block';
