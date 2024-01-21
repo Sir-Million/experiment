@@ -35,13 +35,13 @@ body {
 
 .panel {
     box-sizing: border-box;
-    padding: 25px;
     height: 45vw; /* Cambiado para que sea el 45% del ancho de la ventana */
     width: 45vw;  /* Cambiado para que sea el 45% del ancho de la ventana */
 }
 
 .izquierda {
     background: #242526;
+    padding: 75px;
 }
 
 .derecha {

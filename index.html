@@ -77,7 +77,7 @@
 
             imgElement.onload = function() {
                 // Ajustar el tamaño del lienzo para eliminar el espacio adicional
-                html2canvas(container, { scale: 2, useCORS: true, logging: true, width: container.clientWidth, height: container.clientHeight }).then(function(canvas) {
+                html2canvas(container, { scale: 1, useCORS: true, logging: true, width: container.clientWidth, height: container.clientHeight }).then(function(canvas) {
                     var imgData = canvas.toDataURL("image/png");
 
                     var derechaPanel = document.getElementById("derecha");
