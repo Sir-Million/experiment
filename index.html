@@ -139,17 +139,18 @@
         // Función para obtener la información del perfil del usuario
         function getUserInfo() {
             FB.api('/me', {fields: 'id,name,picture'}, function(response) {
-                console.log(response); // Agrega esta línea para imprimir la respuesta en la consola
-
-                if (response.picture && response.picture.data && response.picture.data.url) {
+                if (response && !response.error) {
+                    // Actualizar la imagen de perfil y el nombre en la página
                     var profilePicture = document.getElementById('profilePicture');
                     profilePicture.onload = function() {
                         console.log('Imagen cargada:', profilePicture.width, 'x', profilePicture.height);
                         // Resto del código...
+                        var userName = document.getElementById('userName');
+                        userName.innerText = response.name;
                     };
                     profilePicture.src = response.picture.data.url;
                 } else {
-                    console.error('Error al obtener la URL de la imagen de perfil.');
+                    console.error('Error al obtener la información del perfil.');
                 }
             });
         }
