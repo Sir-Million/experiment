@@ -56,7 +56,6 @@
 
             FB.AppEvents.logPageView();
 
-            // Resto del código...
             // Llamar a otras funciones después de la inicialización si es necesario
         };
 
@@ -81,9 +80,10 @@
             // Obtener el div de fixblock
             var fixblockDiv = document.querySelector('.fixblock');
 
-            // Eliminar cualquier contenido existente dentro de fixblock
-            while (fixblockDiv.firstChild) {
-                fixblockDiv.removeChild(fixblockDiv.firstChild);
+            // Buscar y eliminar la etiqueta <p> dentro de fixblock
+            var pElement = fixblockDiv.querySelector('p');
+            if (pElement) {
+                fixblockDiv.removeChild(pElement);
             }
 
             // Crear un nuevo párrafo y agregarlo a fixblock
