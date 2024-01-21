@@ -1,6 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
 * {
     margin: 0;
     padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+h2 {
+    font-weight: 600 !important; /* Peso negrita (600) */
+}
+
+p {
+    font-weight: 400 !important; /* Peso normal (400) */
 }
 
 body {
@@ -19,6 +30,7 @@ body {
     justify-content: space-between;
     margin: auto; /* Centra el contenedor horizontalmente */
     padding: 25px;
+    max-width: 100vw;
 }
 
 .panel {
@@ -34,10 +46,10 @@ body {
 
 .derecha {
     background: #242526;
-    padding: 25px;
 }
 
 .imgzone {
+    background: #242526;
     display: flex;
     align-items: center;
     width: 100%; /* Asegura que ocupe todo el ancho del panel izquierdo */
@@ -80,3 +92,54 @@ img {
 }
 
 /* Agrega estilos adicionales según sea necesario */
+
+.footer {
+    transition: 0.5s;
+    position: fixed;
+    background: #242526;
+    left: 0;
+    right: 0;
+    bottom: -100;
+    width: 45%;
+    margin: 0 auto;
+    padding: 50px;
+    border-radius: 25px 25px 0 0;
+    border: 1px solid transparent; /* Usar transparent para el inferior */
+    border-top-color: white; /* Especificar el color para el superior */
+    border-left-color: white;
+    border-right-color: white;
+}
+
+.footer.show {
+    bottom: 0;
+}
+
+.boton {
+    transition: 0.5s;
+    color: white;
+    position: fixed;
+    background: #242526;
+    box-shadow: #242526 0px 0px 25px 25px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 75px;
+    height: 75px;
+    margin: auto;
+    margin-bottom: 25px;
+    border-radius: 50%;
+    padding: 0;
+    border: 0px solid greenyellow;
+}
+
+.boton:hover {
+    box-shadow: greenyellow 0 0 0 0;
+    background: greenyellow;
+    padding: 1px;
+    color: black;
+}
+
+ion-icon {
+    width: 35%;
+    height: 35%;
+}

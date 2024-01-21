@@ -7,10 +7,6 @@
     <meta name="language" content="Spanish">
     <title>Página Dividida</title>
     <link rel="stylesheet" href="index.css">
-
-    <!-- Agrega el SDK de JavaScript de Facebook -->
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js"></script>
-
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
@@ -20,8 +16,8 @@
             <div class="imgzone">
                 <div class="fixblock">
                     <div class="profile">
-                        <img src="" alt="" class="pfp" id="profilePicture">
-                        <h2 id="userName"></h2>
+                        <img src="https://scontent.fmex16-2.fna.fbcdn.net/v/t39.30808-6/413919144_7230147483765065_6908250665249923754_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeEMEA8_bFM-Fnq7NDMDvMTVAR5IBEcYnFEBHkgERxicUWClevIRtBC0u-8L1XueCmyhVBI-ynby5N24n9J8hQ95&_nc_ohc=lGLth5bxdFUAX_ZhTMR&_nc_ht=scontent.fmex16-2.fna&oh=00_AfCwRvKfqYOLRrEUnOtLABD9ljRmSwbctkroN4-BoEQQKw&oe=65B10E8A" alt="Profile Picture" class="pfp" id="profilePicture">
+                        <h2 id="userName">Clark Obe Arellano</h2>
                     </div>
                 </div>
             </div>
@@ -31,66 +27,36 @@
         </div>
     </div>
 
-    <!-- Botón de inicio de sesión de Facebook -->
-    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
-    <br>
-    <button onclick="openTextAreaPanel()">Abrir Panel de Texto</button>
-    <button onclick="captureImage()">Capturar Imagen</button>
-    <a id="downloadLink" style="display: none;">Descargar Imagen</a>
+    <button onclick="openTextAreaPanel()" class="boton"><ion-icon name="create-outline"></ion-icon></button>
 
-    <!-- Panel con textarea adicional -->
-    <div class="text-panel" id="textPanel" style="display: none;">
+    <div class="footer">
         <textarea id="additionalText" placeholder="Escribe aquí..." oninput="autoResizeAdditionalText(this)"></textarea>
         <button onclick="closeTextAreaPanel()">Cerrar Panel</button>
     </div>
 
+    <div class="text-panel" id="textPanel" style="display: none;"></div>
+
     <script>
-        // Inicializar el SDK de Facebook
-        window.fbAsyncInit = function() {
-            FB.init({
-                appId      : '973427901041222',
-                cookie     : true,
-                xfbml      : true,
-                version    : 'v12.0'
-            });
-
-            FB.AppEvents.logPageView();
-
-            // Llamar a otras funciones después de la inicialización si es necesario
-        };
-
-        (function(d, s, id){
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement(s); js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-
-        // Resto del código...
-        // Funciones para manejar el panel de texto adicional
         function openTextAreaPanel() {
-            document.getElementById('textPanel').style.display = 'block';
+            document.querySelector('.footer').classList.add('show');
         }
 
         function closeTextAreaPanel() {
             var additionalTextContent = document.getElementById('additionalText').value;
-            document.getElementById('textPanel').style.display = 'none';
 
-            // Obtener el div de fixblock
             var fixblockDiv = document.querySelector('.fixblock');
+            var pElement = fixblockDiv.querySelector('p');
 
-            // Eliminar cualquier contenido existente dentro de fixblock
-            while (fixblockDiv.firstChild) {
-                fixblockDiv.removeChild(fixblockDiv.firstChild);
+            document.querySelector('.footer').classList.remove('show');
+
+            if (pElement) {
+                pElement.innerHTML = additionalTextContent.replace(/\n/g, '<br>');
+            } else {
+                pElement = document.createElement('p');
+                pElement.innerHTML = additionalTextContent.replace(/\n/g, '<br>');
+                fixblockDiv.appendChild(pElement);
             }
 
-            // Crear un nuevo párrafo y agregarlo a fixblock
-            var pElement = document.createElement('p');
-            pElement.innerHTML = additionalTextContent.replace(/\n/g, '<br>');
-            fixblockDiv.appendChild(pElement);
-
-            // Actualizar la imagen
             actualizarImagen();
         }
 
@@ -106,59 +72,40 @@
         }
 
         function actualizarImagen() {
-            var divElement = document.getElementById("izquierda");
+            var container = document.getElementById("izquierda");
+            var imgElement = document.getElementById("profilePicture");
 
-            html2canvas(divElement, { scale: 2 }).then(function(canvas) {
-                var imgData = canvas.toDataURL("image/png");
+            imgElement.onload = function() {
+                // Ajustar el tamaño del lienzo para eliminar el espacio adicional
+                html2canvas(container, { scale: 2, useCORS: true, logging: true, width: container.clientWidth, height: container.clientHeight }).then(function(canvas) {
+                    var imgData = canvas.toDataURL("image/png");
 
-                var derechaPanel = document.getElementById("derecha");
+                    var derechaPanel = document.getElementById("derecha");
 
-                while (derechaPanel.firstChild) {
-                    derechaPanel.removeChild(derechaPanel.firstChild);
-                }
+                    while (derechaPanel.firstChild) {
+                        derechaPanel.removeChild(derechaPanel.firstChild);
+                    }
 
-                var imgTag = document.createElement("img");
-                imgTag.src = imgData;
+                    var imgTag = document.createElement("img");
+                    imgTag.src = imgData;
 
-                derechaPanel.appendChild(imgTag);
-            });
-        }
+                    derechaPanel.appendChild(imgTag);
+                });
+            };
 
-        // Función para manejar el estado de inicio de sesión
-        function checkLoginState() {
-            FB.getLoginStatus(function(response) {
-                if (response.status === 'connected') {
-                    // El usuario está conectado, obtenemos la información del perfil
-                    getUserInfo();
-                } else {
-                    console.error('El usuario no está conectado a Facebook.');
-                }
-            });
-        }
-
-        // Función para obtener la información del perfil del usuario
-        function getUserInfo() {
-            FB.api('/me', {fields: 'id,name,picture'}, function(response) {
-                if (response && !response.error) {
-                    // Actualizar la imagen de perfil y el nombre en la página
-                    var profilePicture = document.getElementById('profilePicture');
-                    profilePicture.onload = function() {
-                        console.log('Imagen cargada:', profilePicture.width, 'x', profilePicture.height);
-                        // Resto del código...
-                        var userName = document.getElementById('userName');
-                        userName.innerText = response.name;
-                    };
-                    profilePicture.src = response.picture.data.url;
-                } else {
-                    console.error('Error al obtener la información del perfil:', response);
-                }
-            });
+            // Asegurar que la imagen esté cargada antes de intentar capturar el lienzo
+            if (imgElement.complete) {
+                imgElement.onload();
+            }
         }
 
         window.addEventListener("load", function() {
             actualizarImagen();
         });
     </script>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     
 </body>
 </html>
