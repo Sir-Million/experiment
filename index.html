@@ -1,46 +1,60 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Meta tags -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="language" content="Spanish">
+    
+    <!-- Title -->
     <title>Página Dividida</title>
+    
+    <!-- External CSS -->
     <link rel="stylesheet" href="index.css">
+    
+    <!-- External JavaScript library -->
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
 
+    <!-- Container with two panels -->
     <div class="container">
+        <!-- Left panel -->
         <div class="panel izquierda" id="izquierda">
             <div class="imgzone">
                 <div class="fixblock">
-                    <div class="profile">
-                        <img src="pfp.png" alt="Profile Picture" class="pfp" id="profilePicture">
-                        <h2 id="userName">Clark Obe Arellano</h2>
-                    </div>
+                    <!-- Text will be added here -->
                 </div>
             </div>
         </div>
+        
+        <!-- Right panel -->
         <div class="panel derecha" id="derecha">
-            <!-- Aquí se mostrará la imagen -->
+            <!-- Image will be displayed here -->
         </div>
     </div>
 
+    <!-- Button to open the textarea panel -->
     <button onclick="openTextAreaPanel()" class="boton"><ion-icon name="create-outline"></ion-icon></button>
 
+    <!-- Textarea panel -->
     <div class="footer">
         <textarea id="additionalText" placeholder="Escribe aquí..." oninput="autoResizeAdditionalText(this)"></textarea>
         <button onclick="closeTextAreaPanel()">Cerrar Panel</button>
     </div>
 
+    <!-- Hidden text panel -->
     <div class="text-panel" id="textPanel" style="display: none;"></div>
 
+    <!-- JavaScript code -->
     <script>
+        // Function to open the textarea panel
         function openTextAreaPanel() {
             document.querySelector('.footer').classList.add('show');
         }
 
+        // Function to close the textarea panel and update the text
         function closeTextAreaPanel() {
             var additionalTextContent = document.getElementById('additionalText').value;
 
@@ -57,53 +71,55 @@
                 fixblockDiv.appendChild(pElement);
             }
 
-            actualizarImagen();
+            actualizarImagen(); // Call the function to update the image
         }
 
+        // Function to auto-resize the additional text area
         function autoResizeAdditionalText(element) {
             element.style.height = "auto";
             element.style.height = (element.scrollHeight) + "px";
         }
 
+        // Function to auto-resize an element
         function autoResize(element) {
             element.style.height = "auto";
             element.style.height = (element.scrollHeight) + "px";
-            actualizarImagen();
+            actualizarImagen(); // Call the function to update the image
         }
 
+        // Function to update the image of the right panel
         function actualizarImagen() {
             var container = document.getElementById("izquierda");
-            var imgElement = document.getElementById("profilePicture");
 
-            imgElement.onload = function() {
-                // Ajustar el tamaño del lienzo para eliminar el espacio adicional
-                html2canvas(container, { scale: 1, useCORS: true, logging: true, width: container.clientWidth, height: container.clientHeight }).then(function(canvas) {
-                    var imgData = canvas.toDataURL("image/png");
+            html2canvas(container, { 
+                scale: 1, 
+                useCORS: true, 
+                logging: true, 
+                width: container.scrollWidth, // Use scrollWidth instead of offsetWidth
+                height: container.scrollHeight // Use scrollHeight instead of offsetHeight
+            }).then(function(canvas) {
+                var imgData = canvas.toDataURL("image/png");
 
-                    var derechaPanel = document.getElementById("derecha");
+                var derechaPanel = document.getElementById("derecha");
 
-                    while (derechaPanel.firstChild) {
-                        derechaPanel.removeChild(derechaPanel.firstChild);
-                    }
+                while (derechaPanel.firstChild) {
+                    derechaPanel.removeChild(derechaPanel.firstChild);
+                }
 
-                    var imgTag = document.createElement("img");
-                    imgTag.src = imgData;
+                var imgTag = document.createElement("img");
+                imgTag.src = imgData;
 
-                    derechaPanel.appendChild(imgTag);
-                });
-            };
-
-            // Asegurar que la imagen esté cargada antes de intentar capturar el lienzo
-            if (imgElement.complete) {
-                imgElement.onload();
-            }
+                derechaPanel.appendChild(imgTag);
+            });
         }
 
+        // Call actualizarImagen() when the window is loaded
         window.addEventListener("load", function() {
             actualizarImagen();
         });
     </script>
 
+    <!-- Ionicons library -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     
