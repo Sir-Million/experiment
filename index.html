@@ -95,8 +95,8 @@
                 scale: 1, 
                 useCORS: true, 
                 logging: true, 
-                width: container.scrollWidth, // Use scrollWidth instead of offsetWidth
-                height: container.scrollHeight // Use scrollHeight instead of offsetHeight
+                width: container.scrollWidth - 1, // Reduce 1 pixel from the width
+                height: container.scrollHeight - 1 // Reduce 1 pixel from the height
             }).then(function(canvas) {
                 var imgData = canvas.toDataURL("image/png");
 
