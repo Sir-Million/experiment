@@ -36,7 +36,10 @@
     </div>
 
     <!-- Button to open the textarea panel -->
-    <button onclick="openTextAreaPanel()" class="boton"><ion-icon name="create-outline"></ion-icon></button>
+    <div class="buttons">
+        <button onclick="openTextAreaPanel()" class="boton"><ion-icon name="create-outline"></ion-icon></button>
+        <button onclick="downloadImage()" class="boton"><ion-icon name="download-outline"></ion-icon></button>
+    </div>
 
     <!-- Textarea panel -->
     <div class="footer">
@@ -111,6 +114,16 @@
 
                 derechaPanel.appendChild(imgTag);
             });
+        }
+
+        // Function to download the image
+        function downloadImage() {
+            var container = document.getElementById("derecha");
+            var img = container.querySelector('img');
+            var link = document.createElement('a');
+            link.href = img.src;
+            link.download = 'imagen_dividida.png';
+            link.click();
         }
 
         // Call actualizarImagen() when the window is loaded
